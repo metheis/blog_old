@@ -77,7 +77,25 @@ body {
 }
 
 /* Links */
-a{color:inherit}
+a:link {
+  color:inherit;
+  text-decoration: none;
+}
+
+a:visited {
+  color:inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color:#8ea1a1;
+  text-decoration: none;
+}
+
+a:active {
+  color:inherit;
+  text-decoration: none;
+}
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
 
@@ -86,4 +104,12 @@ a{color:inherit}
     width: 100%;
     padding: 0;
   }
+}
+
+/* Center Text */
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
