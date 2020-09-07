@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Title -->
+    <title>Mark Theis Blog</title>
+    <!-- Character Decording -->
+    <meta charset="UTF-8">
+    <!-- Browser Window Size -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="assets/w3-blog.css">
+</head>
+
+<!-- Body -->
+
+<body>
+
+    <div class="header">
+        <h3><a href="https://mark.theis.site/blog/">Mark Theis's Blog</a></h3>
+    </div>
+
+    <div class="row">
+        <div class="leftcolumn">
+            <div class="card">
+                <h2>Using Clear Linux as a KVM Host</h2>
+                <h5>2020 / 09 / 07</h5>
+                <div style="width: 100%; height: 176px; overflow: hidden">
+                    <img src="assets/images/post_2020_09_07/banner.png" style="width:100%">
+                </div>
+                <p>For most things that I want to accomplish in a Linux environment, I can generally either find the
+                    direct solution through a quick google search, or parse solutions to analogous but disparate
+                    problems and adapt them to my situation. However, I do not expect to find solutions for issues and
+                    configuration challenges I arrive at with Intel’s Clear Linux.</p>
+                <p>For those unfamiliar with Clear Linux, it is a Linux distribution with several optimizations for
+                    Intel processors. Some people refer to it as a “benchmark distribution” because it runs extremely
+                    quickly (arguably the fastest publicly available operating system in the world). It is also
+                    “bleeding edge” because it is a rolling distribution: it receives kernel and package changes from
+                    upstream sources within a matter of days or weeks. Larger Linux distributions such as Debian,
+                    Ubuntu, Red Hat, Centos etc. release a major version of the Linux Kernel every few years and keep
+                    the operating system there. Security updates and other essential features that are added to the main
+                    kernel after release are then “backported.” Clear Linux does not need to do this because it keeps
+                    the entire kernel up to date. I could make an entire separate post about Clear Linux and how it
+                    differs from other operating systems, but for now, this explanation will suffice.</p>
+                <p>Apart from being a relatively young distribution, Clear Linux does not have many users because many
+                    applications do not support it, and because parts of its design make day to day usage less
+                    convenient than the likes of Ubuntu (however this has gotten better over time). This has a major
+                    impact: there is significantly less community
+                    support around it, so finding guides or question/answers to projects I want to implement is more
+                    difficult. Therefore, in almost everything I do, I need to learn via adaptation from other OSs.
+                    This is includes running virtual machines.</p>
+                <p>KVM, a popular Linux method of running VMs, runs performantly because it resides within the kernel of
+                    the OS. It rivals the speed of a bare metal hypervisors (such as VMware). There exists ample
+                    documentation on running Clear Linux as a guest OS on KVM, however, little on using Clear Linux as
+                    the host for other virtual machines. The following guide goes over how I use Clear Linux as a KVM
+                    host.</p>
+                <h4>Installing KVM</h4>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+        <div class="rightcolumn">
+            <div class="card">
+                <h2>About Me</h2>
+                <img src="assets/images/mark_square_thumb.png" style="width:80%" class="center">
+                <p>My name is Mark. I am a student at the University of California studying
+                    towards a Bachelor of Science in Mechanical Engineering, Electrical
+                    Engineering, and Computer Science.
+                </p>
+            </div>
+            <div class="card">
+                <h3>Follow Me</h3>
+                <ul>
+                    <li><a href="https://github.com/metheis" target="_blank">Github</a></li>
+                    <li><a href="https://linkedin.com/in/mark-theis/" target="_blank">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy Mark Theis <a href="" onclick="return false;">markt@berkeley.edu</a></p>
+    </div>
+
+</body>
+
+</html>
