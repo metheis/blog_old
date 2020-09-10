@@ -56,6 +56,66 @@ body {
   color: #ddffff;
   padding: 20px;
   margin-top: 20px;
+  
+}
+
+/* Body Card */
+
+.bodycard {
+  background-color: #14171c;
+  color: #ddffff;
+  padding: 20px;
+  margin-top: 20px;
+  
+}
+
+/* Code Block */
+
+/* .code {
+  background-color: #474a52;
+  color: #ddffff;
+  padding: 5px;
+  margin-top: 5px;
+} */
+
+/* Code */
+code,
+pre {
+  font-family: Menlo, Monaco, "Courier New", monospace;
+}
+code {
+  padding: .25em .5em;
+  font-size: 85%;
+  color: #ddffff;
+  background-color: #353b46;
+  border-radius: 3px;
+}
+pre {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding: 0;
+  line-height: 1.4;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #474a52;
+}
+pre code {
+  padding: 0;
+  font-size: 100%;
+  color: inherit;
+  background-color: transparent;
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* Clear floats after the columns */
@@ -97,6 +157,25 @@ a:active {
   text-decoration: none;
 }
 
+div.bodycard a:link {
+  color:inherit;
+  text-decoration: underline;
+}
+
+div.bodycard a:visited {
+  color:inherit;
+  text-decoration: underline;
+}
+
+div.bodycard a:hover {
+  color:#8ea1a1;
+  text-decoration: underline;
+}
+
+div.bodycard a:active {
+  color:inherit;
+  text-decoration: underline;
+}
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
 
 @media screen and (max-width: 800px) {

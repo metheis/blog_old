@@ -22,7 +22,7 @@
 
     <div class="row">
         <div class="leftcolumn">
-            <div class="card">
+            <div class="bodycard">
                 <h2>Using Clear Linux as a KVM Host</h2>
                 <h5>2020 / 09 / 07</h5>
                 <div style="width: 100%; height: 176px; overflow: hidden">
@@ -43,7 +43,7 @@
                     the entire kernel up to date. I could make an entire separate post about Clear Linux and how it
                     differs from other operating systems, but for now, this explanation will suffice.</p>
                 <p>Apart from being a relatively young distribution, Clear Linux does not have many users because many
-                    applications do not support it, and because parts of its design make day to day usage less
+                    applications do not support it, and its design makes day to day usage less
                     convenient than the likes of Ubuntu (however this has gotten better over time). This has a major
                     impact: there is significantly less community
                     support around it, so finding guides or question/answers to projects I want to implement is more
@@ -55,11 +55,44 @@
                     the host for other virtual machines. The following guide goes over how I use Clear Linux as a KVM
                     host.</p>
                 <h4>Installing KVM</h4>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
+                <p>I assume you already have a system running Clear Linux. To find out how to install it, please see
+                    <a href="https://docs.01.org/clearlinux/latest/get-started/bare-metal-install-server.html"
+                        target="_blank">Intel’s guide</a>.</p>
+                <p>Add the following bundles:</p>
+                <pre><code><label class="unselectable"> $ </label>sudo swupd bundle-add kernel-kvm kvm-host</code></pre>
+                <p>The first installs virtualization features in the kernel, and the second installs packages that that
+                    allow you to manage a kvm instance.</p>
+                <p>To create virtual machines, you either must run as root or add your user to the kvm user group:</p>
+                <pre><code><label class="unselectable"> $ </label></code>sudo usermod -aG kvm [username]</pre>
+                <p>Finally, we will utilize libvirtd to manage the virtual machines. To enable this toolkit's service:
+                </p>
+                <pre><code><label class="unselectable"> $ </label></code>sudo systemctl enable libvirtd</pre>
+                <h4>Configure Networking</h4>
+                <p>By default, Clear Linux (as with 99% of other operating systems) directly uses a wired adapter to
+                    connect to the network. However, we will need to configure a bridge to allow our virtual machines to
+                    receive their own IP addresses and communicate as their own entities. Clear
+                    Linux uses NetworkManager to manage interfaces. To list currently configured interfaces, run:</p>
+                <pre><code><label class="unselectable"> $ </label>nmcli device status</code></pre>
+                <p>Take note of the interface that you currently use for internet access. Mine was <code>eno1</code></p>
+                <p>Now lets create a new bridge called br0:</p>
+                <pre><code><label class="unselectable"> $ </label>sudo nmcli con add type bridge ifname br0 con-name br0</code></pre>
+                <p>We will link it to use the <code>eno1</code> adapter for physical access:</p>
+                <pre><code><label class="unselectable"> $ </label>sudo nmcli con add type bridge-slave ifname eno1 master br0</code></pre>
+                <p>(Optional) Disabled STP for the bridge so that we don't need to wait for it to become part of the network tree:</p>
+                <pre><code><label class="unselectable"> $ </label>sudo nmcli con modify br0 bridge.stp no</code></pre>
+                <p>By default, NetworkManager assumes you will use DHCP. However, to set a static IP (replacing the
+                    corresponding fields for your network):</p>
+                <pre><code><label class="unselectable"> $ </label></code>sudo nmcli con modify br0 ipv4.method manual ipv4.address "[addr/prefix_bit_length]" ipv4.gateway"[gateway]" ipv4.dns 1.1.1.1 ipv4.dns-search "example.tld"</pre>
+                <p>Now it's time to bring down the the eno1 interface connection:</p>
+                <pre><code><label class="unselectable"> $ </label>sudo nmcli con down eno1</code></pre>
+                <p>And bring up the bridge:</p>
+                <pre><code><label class="unselectable"> $ </label>sudo nmcli con up br0</code></pre>
+                <p>Finally, a restart of the NetworkManager service:</p>
+                <pre><code><label class="unselectable"> $ </label>sudo systemctl restart NetworkManager.service</code></pre>
+                <p>And voilà, the bridge should work! Test out internet access or <code>ping google.com</code> to verify it works.</p>
+                <pre><code><label class="unselectable"> $ </label></code></pre>
+                <pre><code><label class="unselectable"> $ </label></code></pre>
+                <pre><code><label class="unselectable"> $ </label></code></pre>
             </div>
         </div>
         <div class="rightcolumn">
