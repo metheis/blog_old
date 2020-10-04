@@ -1,8 +1,10 @@
+/* CSS for Mark Theis's blog */
+
 *{
   box-sizing: border-box;
 }
 
-/* Add a gray background color with some padding */
+/* Dark background with padding */
 
 body {
   font-family: Arial;
@@ -24,7 +26,7 @@ body {
   background: #14171c;
 }
 
-/* Create two unequal columns that floats next to each other */
+/* Two unequal columns: content / sidebar */
 
 /* Left column */
 
@@ -41,7 +43,7 @@ body {
   padding-left: 20px;
 }
 
-/* Fake image */
+/* Test image */
 
 .fakeimg {
   background-color: black;
@@ -71,14 +73,6 @@ body {
 
 /* Code Block */
 
-/* .code {
-  background-color: #474a52;
-  color: #ddffff;
-  padding: 5px;
-  margin-top: 5px;
-} */
-
-/* Code */
 code,
 pre {
   font-family: Menlo, Monaco, "Courier New", monospace;
