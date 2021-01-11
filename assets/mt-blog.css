@@ -23,9 +23,17 @@ body {
   padding: 5px;
   padding-left: 100px;
   font-size: 30px;
-  color: #ddffff;
+  color: #f8f8f2;
   text-align: left;
-  background: #14171c;
+  background: #23252f;
+}
+
+h2, h4, h5, h6 {
+  color: #98a6ad;
+}
+
+h5 {
+  color: #9a9ba0
 }
 
 /* Two unequal columns: content / sidebar */
@@ -56,8 +64,8 @@ body {
 /* Add a card effect for articles */
 
 .card {
-  background-color: #14171c;
-  color: #ddffff;
+  background-color: #23252f;
+  color: #f8f8f2;
   padding: 20px;
   margin-top: 20px;
   
@@ -66,8 +74,8 @@ body {
 /* Body Card */
 
 .bodycard {
-  background-color: #14171c;
-  color: #ddffff;
+  background-color: #23252f;
+  color: #f8f8f2;
   padding: 20px;
   margin-top: 20px;
   
@@ -87,10 +95,14 @@ code {
   border-radius: 3px;
 }
 pre {
+  border-radius: 10px;
   display: block;
   margin-top: 0;
   margin-bottom: 1rem;
-  padding: 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
   line-height: 1.4;
   white-space: pre;
   white-space: pre-wrap;
@@ -127,8 +139,8 @@ pre code {
 .footer {
   padding: 20px;
   text-align: center;
-  color: #ddffff;
-  background: #14171c;
+  color: #f8f8f2;
+  background: #23252f;
   margin-top: 20px;
 }
 
