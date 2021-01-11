@@ -59,43 +59,43 @@
                     <a href="https://docs.01.org/clearlinux/latest/get-started/bare-metal-install-server.html"
                         target="_blank">Intel’s guide</a>.</p>
                 <p>Add the following bundles:</p>
-                <pre><code><label class="unselectable"> $ </label>sudo swupd bundle-add kernel-kvm kvm-host</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo swupd bundle-add kernel-kvm kvm-host</code></pre>
                 <p>The first installs virtualization features in the kernel, and the second installs packages that that
                     allow you to manage a kvm instance.</p>
                 <p>To create virtual machines, you must either login as root or add your user to the kvm user group:</p>
-                <pre><code><label class="unselectable"> $ </label></code>sudo usermod -aG kvm [username]</pre>
+                <pre><code><label class="unselectable">$ </label></code>sudo usermod -aG kvm [username]</pre>
                 <p>Finally, we will utilize libvirtd to manage the virtual machines. To enable this toolkit's service:
                 </p>
-                <pre><code><label class="unselectable"> $ </label></code>sudo systemctl enable libvirtd</pre>
+                <pre><code><label class="unselectable">$ </label></code>sudo systemctl enable libvirtd</pre>
                 <p>A quick <code>reboot</code> should make sure all components are enabled and ready for deployment.</p>
                 <h3>Configure Networking</h3>
                 <p>By default, Clear Linux directly uses a wired adapter to
                     connect to the network. However, we will need to configure a bridge to allow our virtual machines to
                     receive their own IP addresses and communicate as their own entities. Clear
                     Linux uses NetworkManager to manage interfaces. To list currently configured interfaces, run:</p>
-                <pre><code><label class="unselectable"> $ </label>nmcli device status</code></pre>
+                <pre><code><label class="unselectable">$ </label>nmcli device status</code></pre>
                 <p>Take note of the interface that you currently use for internet access. Mine was <code>eno1</code></p>
                 <p>Now lets create a new bridge called <code>br0</code>:</p>
-                <pre><code><label class="unselectable"> $ </label>sudo nmcli con add type bridge ifname br0 con-name br0</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo nmcli con add type bridge ifname br0 con-name br0</code></pre>
                 <p>We will link it to the <code>eno1</code> adapter for physical access:</p>
-                <pre><code><label class="unselectable"> $ </label>sudo nmcli con add type bridge-slave ifname eno1 master br0</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo nmcli con add type bridge-slave ifname eno1 master br0</code></pre>
                 <p>(Optional) Disabled STP for the bridge (we generally don't need our bridge part of the network tree):
                 </p>
-                <pre><code><label class="unselectable"> $ </label>sudo nmcli con modify br0 bridge.stp no</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo nmcli con modify br0 bridge.stp no</code></pre>
                 <p>By default, NetworkManager assumes you will use DHCP. However, to set a static IP (replacing the
                     corresponding fields for your network):</p>
-                <pre><code><label class="unselectable"> $ </label>sudo nmcli con modify br0 ipv4.method manual ipv4.address "[addr/prefix_bit_length]" ipv4.gateway"[gateway]" ipv4.dns 1.1.1.1 ipv4.dns-search "example.tld"</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo nmcli con modify br0 ipv4.method manual ipv4.address "[addr/prefix_bit_length]" ipv4.gateway"[gateway]" ipv4.dns 1.1.1.1 ipv4.dns-search "example.tld"</code></pre>
                 <p>Now it's time to bring down the the <code>eno1</code> interface connection:</p>
-                <pre><code><label class="unselectable"> $ </label>sudo nmcli con down eno1</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo nmcli con down eno1</code></pre>
                 <p>And bring up the bridge:</p>
-                <pre><code><label class="unselectable"> $ </label>sudo nmcli con up br0</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo nmcli con up br0</code></pre>
                 <p>Second to last, we need to prevent packets forwarded through the bridge from routing to the iptables
                     of the host. We can append the following 3 lines to a new file for our bridge in
                     <code>/etc/sysctl.d/</code> directory:</p>
-                <pre><code><label class="unselectable"> $ </label>sudo nano /etc/sysctl.d/0-bridge.conf</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo nano /etc/sysctl.d/0-bridge.conf</code></pre>
                 <pre><code>net.bridge.bridge-nf-call-arptables = 0<br>net.bridge.bridge-nf-call-ip6tables = 0<br>net.bridge.bridge-nf-call-iptables = 0</code></pre>
                 <p>Finally, a restart of the system:</p>
-                <pre><code><label class="unselectable"> $ </label>sudo reboot</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo reboot</code></pre>
                 <p>And voilà, the bridge should work! Test out internet access or <code>ping one.one.one.one</code> to
                     verify. Also, you can
                     check the bridge with the <code>ip addr</code> command and see its IP configuration.</p>
@@ -108,10 +108,10 @@
                     this on a RAID array as VMs can take up a lot of storage.</p>
                 <p>Also go ahead and pick which operating system/ ISO you will use. In this example I will use CentOS 8,
                     but you can use anything else you prefer. </p>
-                <pre><code><label class="unselectable"> $ </label>curl -o iso/CentOS-8.2.2004-x86_64-dvd1.iso http://linux.mirrors.es.net/centos/8.2.2004/isos/x86_64/CentOS-8.2.2004-x86_64-dvd1.iso</code></pre>
+                <pre><code><label class="unselectable">$ </label>curl -o iso/CentOS-8.2.2004-x86_64-dvd1.iso http://linux.mirrors.es.net/centos/8.2.2004/isos/x86_64/CentOS-8.2.2004-x86_64-dvd1.iso</code></pre>
                 <p>Now we will create an image for the VM (<code>200G</code> size in my case). I use the raw image
                     format as it only uses as much storage on the host as the VM uses.</p>
-                <pre><code><label class="unselectable"> $ </label></code>qemu-img create -f raw images/centos_8_1.img 200G</pre>
+                <pre><code><label class="unselectable">$ </label></code>qemu-img create -f raw images/centos_8_1.img 200G</pre>
                 <p>Final piece is to define the VM and specify its parameters. We will do so using an xml file with
                     corresponding fields for each specification. Here is a corresponding <code>centos_8_1.xml</code></p>
                 <pre><code>&lt;domain type='kvm'&gt;
@@ -165,21 +165,21 @@
                     much
                     easier. Setting a password is good practice (and necessary for some VNC clients).</p>
                 <p>With the configuration file written, you may use virsh to parse the file and create the VM:</p>
-                <pre><code><label class="unselectable"> $ </label>sudo virsh define centos_8_1.xml</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo virsh define centos_8_1.xml</code></pre>
                 <p>Remember that for each VM you define, it will need its own name, UUID, and MAC address.</p>
                 <h3>Boot Up VM and Install OS</h3>
                 <p>Let's click the digital power button!</p>
-                <pre><code><label class="unselectable"> $ </label>sudo virsh start centos_8_1</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo virsh start centos_8_1</code></pre>
                 <p>If you want this VM to automatically start on boot, use:</p>
-                <pre><code><label class="unselectable"> $ </label>sudo virsh autostart centos_8_1</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo virsh autostart centos_8_1</code></pre>
                 <p>Let's find which VNC port the VM started on:</p>
-                <pre><code><label class="unselectable"> $ </label>sudo virsh vncdisplay centos_8_1</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo virsh vncdisplay centos_8_1</code></pre>
                 <p>The output will resemble the localhost address with a port: <code>127.0.0.1:3</code>. In my case port
                     3, which corresponds to 5903 (VNC starts at port 5900 by default).</p>
                 <p>If you're using a system with a desktop environment, you can login directly using a vnc client
                     pointed to <code>localhost:5903</code>. However, if running the VM on a remote server, you need to
                     forward the server port to your local machine. In a new terminal window:</p>
-                <pre><code><label class="unselectable"> $ </label>ssh serveruser@[IP] -L 5903:localhost:5903</code></pre>
+                <pre><code><label class="unselectable">$ </label>ssh serveruser@[IP] -L 5903:localhost:5903</code></pre>
                 <p>Now you can connect to the remote VM display using port 5903 on your local machine. Similar to
                     running the VM right on your local system, connect your VNC client to <code>localhost:5903</code>
                     with the password you set in the xml file.</p>
@@ -190,9 +190,9 @@
                     <code>hd</code> instead of <code>cdrom</code>.</p>
                 <pre><code></code>&lt;boot dev='hd'/&gt;</pre>
                 <p>Save the file, define the machine again, and reboot it:</p>
-                <pre><code><label class="unselectable"> $ </label>sudo virsh define centos_8_1.xml</code></pre>
-                <pre><code><label class="unselectable"> $ </label>sudo virsh destroy centos_8_1</code></pre>
-                <pre><code><label class="unselectable"> $ </label>sudo virsh start centos_8_1</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo virsh define centos_8_1.xml</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo virsh destroy centos_8_1</code></pre>
+                <pre><code><label class="unselectable">$ </label>sudo virsh start centos_8_1</code></pre>
                 <h3>Finish Line</h3>
                 <p>You now have a working VM running on a Clear Linux host! As mentioned earlier, if you want to
                     create more VMs, you simply need to copy the VM xml file, generate a new UUID and MAC address,
