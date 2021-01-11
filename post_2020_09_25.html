@@ -42,14 +42,15 @@
                     kernel after release are then “backported.” Clear Linux does not need to do this because it keeps
                     the entire kernel up to date. I could make an entire separate post about Clear Linux and how it
                     differs from other operating systems, but for now, this explanation will suffice.</p>
-                <p>Apart from being a relatively young distribution, Clear Linux does not have many users because many
-                    applications do not support it, and its design makes day to day usage less
+                <p>Apart from being a relatively young distribution, Clear Linux does not have as many users compared to
+                    the more prominent Linux distros because (1) many
+                    applications do not support it, and (2) its design makes day to day usage less
                     convenient than the likes of Ubuntu (however this has gotten better over time). This has a major
-                    impact: there is significantly less community
+                    impact: there exists significantly less community
                     support around it, so finding guides or question/answers to projects I want to implement is more
                     difficult. Therefore, in almost everything I do, I need to learn via adaptation from other OSs.
                     This is includes running virtual machines.</p>
-                <p>KVM, a popular Linux method of running VMs, runs performantly because it resides within the kernel of
+                <p>KVM, a popular Linux method for running VMs, runs performantly because it resides within the kernel of
                     the OS. It rivals the speed of a bare metal hypervisors (such as VMware). There exists ample
                     documentation on running Clear Linux as a guest OS on KVM, however, little on using Clear Linux as
                     the host for other virtual machines. The following guide goes over how I use Clear Linux as a KVM
@@ -63,10 +64,10 @@
                 <p>The first installs virtualization features in the kernel, and the second installs packages that that
                     allow you to manage a kvm instance.</p>
                 <p>To create virtual machines, you must either login as root or add your user to the kvm user group:</p>
-                <pre><code><label class="unselectable">$ </label></code>sudo usermod -aG kvm [username]</pre>
+                <pre><code><label class="unselectable">$ </label>sudo usermod -aG kvm [username]</code></pre>
                 <p>Finally, we will utilize libvirtd to manage the virtual machines. To enable this toolkit's service:
                 </p>
-                <pre><code><label class="unselectable">$ </label></code>sudo systemctl enable libvirtd</pre>
+                <pre><code><label class="unselectable">$ </label>sudo systemctl enable libvirtd</code></pre>
                 <p>A quick <code>reboot</code> should make sure all components are enabled and ready for deployment.</p>
                 <h3>Configure Networking</h3>
                 <p>By default, Clear Linux directly uses a wired adapter to
@@ -111,7 +112,7 @@
                 <pre><code><label class="unselectable">$ </label>curl -o iso/CentOS-8.2.2004-x86_64-dvd1.iso http://linux.mirrors.es.net/centos/8.2.2004/isos/x86_64/CentOS-8.2.2004-x86_64-dvd1.iso</code></pre>
                 <p>Now we will create an image for the VM (<code>200G</code> size in my case). I use the raw image
                     format as it only uses as much storage on the host as the VM uses.</p>
-                <pre><code><label class="unselectable">$ </label></code>qemu-img create -f raw images/centos_8_1.img 200G</pre>
+                <pre><code><label class="unselectable">$ </label>qemu-img create -f raw images/centos_8_1.img 200G</code></pre>
                 <p>Final piece is to define the VM and specify its parameters. We will do so using an xml file with
                     corresponding fields for each specification. Here is a corresponding <code>centos_8_1.xml</code></p>
                 <pre><code>&lt;domain type='kvm'&gt;
@@ -188,7 +189,7 @@
                 <h3>Redefine VM</h3>
                 <p>Now that the HD image has an operating system, we can change line 15 of the xml file to boot to the
                     <code>hd</code> instead of <code>cdrom</code>.</p>
-                <pre><code></code>&lt;boot dev='hd'/&gt;</pre>
+                <pre><code>&lt;boot dev='hd'/&gt;</code></pre>
                 <p>Save the file, define the machine again, and reboot it:</p>
                 <pre><code><label class="unselectable">$ </label>sudo virsh define centos_8_1.xml</code></pre>
                 <pre><code><label class="unselectable">$ </label>sudo virsh destroy centos_8_1</code></pre>
